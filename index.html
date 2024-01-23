@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>text reader</title>
+    <style>
+        #sidebar {
+            display: flex;
+            flex-direction: column;
+            color: grey;
+            font-family: sans-serif;
+            border-right: thin solid;
+        }
+
+        .fileListItem {
+            margin: 1px;
+        }
+
+        .fileListItem:hover {
+            background-color: #A5CDFE;
+        }
+
+        #gutter {
+            padding-left: 10px;
+            padding-right: 5px;
+            display: flex;
+            flex-direction: column;
+            text-align: right;
+            color: gray;
+            font-family: sans-serif;
+            width: 20px;
+            border-right: thin solid;
+        }
+
+        #editarea {
+            /* margin-left: 10px; */
+            padding-left: 10px;
+            font-family: sans-serif;
+            white-space: break-spaces;
+            caret-color: black;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* [contenteditable]:focus { */
+        /* outline: none; */
+        /* Remove the border on focus */
+        /* } */
+    </style>
+</head>
+
+<body>
+    <div>Files:</div>
+    <hr>
+    <div id="editor" style="display: flex;">
+        <div id="sidebar">
+            {{range .Files}}
+            <div class="fileListItem">{{.}}</div>
+            {{end}}
+        </div>
+        <div id="gutter">
+            <div>1</div>
+        </div>
+        <div id="editarea">
+            <div><span style="color: gray;">// please select a file on the left</span></div>
+        </div>
+    </div>
+    <script src="static/script.js"></script>
+</body>
+
+</html>
