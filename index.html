@@ -5,36 +5,35 @@
     <meta charset="UTF-8" />
     <title>text reader</title>
     <style>
-        #sidebar {
+        #fileList {
             display: flex;
             flex-direction: column;
-            color: grey;
             font-family: sans-serif;
-            border-right: thin solid;
+            border-right: thin dotted;
         }
 
         .fileListItem {
             margin: 1px;
+            color: grey;
+            text-decoration: none;
         }
 
         .fileListItem:hover {
             background-color: #A5CDFE;
         }
 
-        #gutter {
-            padding-left: 10px;
-            padding-right: 5px;
+        #lineNumber {
+            padding-left: 5px;
+            padding-right: 10px;
             display: flex;
             flex-direction: column;
             text-align: right;
             color: gray;
             font-family: sans-serif;
-            width: 20px;
-            border-right: thin solid;
+            border-right: thin dotted;
         }
 
-        #editarea {
-            /* margin-left: 10px; */
+        #textArea {
             padding-left: 10px;
             font-family: sans-serif;
             white-space: break-spaces;
@@ -42,11 +41,6 @@
             display: flex;
             flex-direction: column;
         }
-
-        /* [contenteditable]:focus { */
-        /* outline: none; */
-        /* Remove the border on focus */
-        /* } */
     </style>
 </head>
 
@@ -54,19 +48,35 @@
     <div>Files:</div>
     <hr>
     <div id="editor" style="display: flex;">
-        <div id="sidebar">
+        <div id="fileList">
             {{range .Files}}
-            <div class="fileListItem">{{.}}</div>
+                <a class="fileListItem" href="/{{.}}">{{.}}</a>
             {{end}}
         </div>
-        <div id="gutter">
-            <div>1</div>
+        <div id="lineNumber">
+            {{range .LineNumbers}}
+                <div>{{.}}</div>
+            {{else}}
+                <div>1</div>
+            {{end}}
         </div>
-        <div id="editarea">
-            <div><span style="color: gray;">// please select a file on the left</span></div>
+        <div id="textArea">
+            {{range .Texts}}
+                <div>{{.}}</div>
+            {{else}}
+                <div><span style="color: gray;">// please select a file on the left</span></div>
+            {{end}}
         </div>
     </div>
-    <script src="static/script.js"></script>
+    <script type="text/javascript">
+        let currentFile = "{{.CurrentFile}}"; // rendered by Go
+        const fileList = document.querySelectorAll('.fileListItem');
+        fileList.forEach(function (item) {
+            if (item.textContent === currentFile) {
+                item.style.color = "white";
+                item.style.backgroundColor = "#0749DA";
+            }
+        });
+    </script>
 </body>
-
 </html>
