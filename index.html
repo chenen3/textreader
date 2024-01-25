@@ -8,7 +8,6 @@
         #fileList {
             display: flex;
             flex-direction: column;
-            font-family: sans-serif;
             border-right: thin dotted;
         }
 
@@ -29,13 +28,11 @@
             flex-direction: column;
             text-align: right;
             color: gray;
-            font-family: sans-serif;
             border-right: thin dotted;
         }
 
         #textArea {
             padding-left: 10px;
-            font-family: sans-serif;
             white-space: break-spaces;
             caret-color: black;
             display: flex;
@@ -47,7 +44,7 @@
 <body>
     <div>Files:</div>
     <hr>
-    <div id="editor" style="display: flex;">
+    <div id="editor" style="display: flex;font-family: monospace;">
         <div id="fileList">
             {{range .Files}}
                 <a class="fileListItem" href="/{{.}}">{{.}}</a>

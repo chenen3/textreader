@@ -10,7 +10,10 @@ func TestRender(t *testing.T) {
 		line string
 		want [][2]string
 	}{
-		{line: "package main", want: [][2]string{{}}},
+		{
+			line: "package main",
+			want: [][2]string{{"keyword", "package"}, {"plain", " "}, {"plain", "main"}},
+		},
 		{
 			line: `var s = fmt.Sprintf("%s", "hi")`,
 			want: [][2]string{

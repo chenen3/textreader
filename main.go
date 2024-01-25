@@ -144,12 +144,12 @@ func parseSyntax(line string) [][2]string {
 			break
 		}
 		// inside string
-		if line[i] == '"' {
+		if line[i] == '"' || line[i] == '`' {
 			if !inString {
 				inString = true
 			} else {
 				inString = false
-				result = append(result, [2]string{SyntaxString, string(append(token, '"'))})
+				result = append(result, [2]string{SyntaxString, string(append(token, line[i]))})
 				token = token[:0]
 				continue
 			}
