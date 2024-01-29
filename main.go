@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path"
 	"slices"
 	"strconv"
 	"strings"
@@ -28,7 +29,7 @@ func main() {
 		return
 	}
 	for _, f := range entries {
-		if f.Name()[0] == '.' || f.IsDir() {
+		if f.Name()[0] == '.' {
 			continue
 		}
 		files = append(files, f.Name())
@@ -39,7 +40,6 @@ func main() {
 		log.Println(err)
 		return
 	}
-
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		data := Data{Files: files}
 		filename := r.URL.Path[1:]
@@ -51,8 +51,31 @@ func main() {
 			return
 		}
 
-		if !slices.Contains(files, filename) {
+		info, err := os.Stat(filename)
+		if err != nil {
+			log.Println(err)
 			w.WriteHeader(404)
+			return
+		}
+
+		if info.IsDir() {
+			entries, err := os.ReadDir(filename)
+			if err != nil {
+				log.Println(err)
+				w.WriteHeader(500)
+				return
+			}
+			data = Data{}
+			for _, f := range entries {
+				if f.Name()[0] == '.' {
+					continue
+				}
+				data.Files = append(data.Files, path.Join(filename, f.Name()))
+			}
+			err = tmpl.Execute(w, data)
+			if err != nil {
+				log.Println(err)
+			}
 			return
 		}
 

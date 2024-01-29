@@ -5,19 +5,13 @@
     <meta charset="UTF-8" />
     <title>text reader</title>
     <style>
-        #fileList {
-            display: flex;
-            flex-direction: column;
-            border-right: thin dotted;
+        .fileList {
+            padding-inline-start: 0px;
+            margin-block-start: 0px;
+            list-style-type: none;
         }
 
-        .fileListItem {
-            margin: 1px;
-            color: grey;
-            text-decoration: none;
-        }
-
-        .fileListItem:hover {
+        li.filename:hover {
             background-color: #A5CDFE;
         }
 
@@ -28,6 +22,7 @@
             flex-direction: column;
             text-align: right;
             color: gray;
+            border-left: thin dotted;
             border-right: thin dotted;
         }
 
@@ -42,33 +37,36 @@
 </head>
 
 <body>
-    <div>Files:</div>
+    {{.CurrentFile}}
     <hr>
     <div id="editor" style="display: flex;font-family: monospace;">
-        <div id="fileList">
+        <ul class="fileList">
             {{range .Files}}
-                <a class="fileListItem" href="/{{.}}">{{.}}</a>
+            <li class="filename">{{.}}</li>
             {{end}}
-        </div>
+        </ul>
         <div id="lineNumber">
             {{range .LineNumbers}}
-                <div>{{.}}</div>
+            <div>{{.}}</div>
             {{else}}
-                <div>1</div>
+            <div>1</div>
             {{end}}
         </div>
         <div id="textArea">
             {{range .Texts}}
-                <div>{{.}}</div>
+            <div>{{.}}</div>
             {{else}}
-                <div><span style="color: gray;">// please select a file on the left</span></div>
+            <div><span style="color: gray;">// please select a file on the left</span></div>
             {{end}}
         </div>
     </div>
     <script type="text/javascript">
         let currentFile = "{{.CurrentFile}}"; // rendered by Go
-        const fileList = document.querySelectorAll('.fileListItem');
+        const fileList = document.querySelectorAll('.filename');
         fileList.forEach(function (item) {
+            item.addEventListener('click', function (event) {
+                window.location = '/' + this.textContent;
+            });
             if (item.textContent === currentFile) {
                 item.style.color = "white";
                 item.style.backgroundColor = "#0749DA";
@@ -76,4 +74,5 @@
         });
     </script>
 </body>
+
 </html>
