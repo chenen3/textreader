@@ -14,7 +14,7 @@ import (
 
 type Data struct {
 	Files       []string
-	Texts       []string
+	Content     []string
 	LineNumbers []int
 	CurrentFile string
 }
@@ -86,8 +86,8 @@ func main() {
 			log.Println(err)
 			return
 		}
-		data.Texts = render(string(bs))
-		for i := range data.Texts {
+		data.Content = render(string(bs))
+		for i := range data.Content {
 			data.LineNumbers = append(data.LineNumbers, i+1)
 		}
 		if err := tmpl.Execute(w, data); err != nil {
@@ -147,7 +147,7 @@ var (
 		"const", "fallthrough", "if", "range", "type",
 		"continue", "for", "import", "return", "var",
 	}
-	types      = []string{"int", "string", "true", "false"}
+	types      = []string{"int", "string", "bool", "byte", "true", "false"}
 	delimiters = []byte{' ', '(', ')', '{', '}', '.', '\t', '[', ']'}
 )
 

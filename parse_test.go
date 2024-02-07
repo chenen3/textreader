@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestRender(t *testing.T) {
+func TestParse(t *testing.T) {
 	cases := []struct {
 		line string
 		want [][2]string
